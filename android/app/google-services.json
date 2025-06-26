@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "701272831447",
+    "project_id": "tabibline-c9f93",
+    "storage_bucket": "tabibline-c9f93.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701272831447:android:97450577e86a3cf4364792",
+        "android_client_info": {
+          "package_name": "com.example.tabib_line"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqysKkTzDMj6aLGH-vGi-qhL_ENZME7Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
