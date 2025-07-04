@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<LogInScreen> {
                             await CacheHelper.saveBool(_rememberMeKey, false);
                           }
                         }
-                        Navigator.pushNamed(context, 'home');
+                        Navigator.pushNamed(context, '/');
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Color(0xFFFFFFFF),

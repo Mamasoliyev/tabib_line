@@ -335,28 +335,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         const SizedBox(height: 10),
 
-                        // ElevatedButton(
-                        //   onPressed: () {
-                        //     if (_formKey.currentState!.validate()) {
-                        //       _formKey.currentState!.save();
-                        //       debugPrint(
-                        //         "First name: ${firstNameController.text}",
-                        //       );
-                        //       debugPrint(
-                        //         "Last name: ${lastNameController.text}",
-                        //       );
-                        //       debugPrint("Email: ${emailController.text}");
-                        //       debugPrint(
-                        //         "Password: ${passwordController.text}",
-                        //       );
-                        //     }
-                        //   },
-                        //   style: ElevatedButton.styleFrom(
-                        //     minimumSize: const Size.fromHeight(50),
-                        //   ),
-                        //   child: const Text("Submit"),
-                        // ),
-                        // const SizedBox(height: 30),
                       ],
                     ),
                   ),
@@ -415,6 +393,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   "email": emailController.text.trim(),
                                 });
                             log(userCredential.toString());
+                            log(userCredential.user?.uid.toString() ?? '');
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(
@@ -422,43 +401,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ).showSnackBar(SnackBar(content: Text(e.toString())));
                         }
                       },
-                      // onPressed: () async {
-                      //   if (_formKey.currentState!.validate()) {
-                      //     _formKey.currentState!.save();
-
-                      //     debugPrint("First name: ${firstNameController.text}");
-                      //     debugPrint("Last name: ${lastNameController.text}");
-                      //     debugPrint("Email: ${emailController.text}");
-                      //     debugPrint("Password: ${passwordController.text}");
-
-                      //     await CacheHelper.init();
-                      //     if (rememberMe) {
-                      //       await CacheHelper.saveString(
-                      //         _firstNameKey,
-                      //         firstNameController.text.trim(),
-                      //       );
-                      //       await CacheHelper.saveString(
-                      //         _lastNameKey,
-                      //         lastNameController.text.trim(),
-                      //       );
-                      //       await CacheHelper.saveString(
-                      //         _emailKey,
-                      //         emailController.text.trim(),
-                      //       );
-                      //       await CacheHelper.saveString(
-                      //         _passwordKey,
-                      //         passwordController.text.trim(),
-                      //       );
-                      //       await CacheHelper.saveBool(_rememberMeKey, true);
-                      //     } else {
-                      //       await CacheHelper.remove(_firstNameKey);
-                      //       await CacheHelper.remove(_lastNameKey);
-                      //       await CacheHelper.remove(_emailKey);
-                      //       await CacheHelper.remove(_passwordKey);
-                      //       await CacheHelper.saveBool(_rememberMeKey, false);
-                      //     }
-                      //   }
-                      // },
+                    
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Color(0xFFFFFFFF),
                         backgroundColor: Color(0xFF156651),

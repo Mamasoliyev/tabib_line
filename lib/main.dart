@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tabib_line/service/cache_helper.dart';
-import 'package:tabib_line/view%20copy/screens/home_screen.dart';
+import 'package:tabib_line/view%20copy/screens/navigation_screen.dart';
 import 'package:tabib_line/view%20copy/screens/log_in_screen.dart';
 import 'package:tabib_line/view%20copy/screens/onboarding_screen.dart';
 import 'package:tabib_line/view%20copy/screens/sign_up_screen.dart';
@@ -11,7 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:tabib_line/firebase_options.dart';
 
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
   runApp(const MainApp());
@@ -24,6 +24,46 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: 'splash',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        fontFamily: 'Nunito',
+        // scaffoldBackgroundColor: Colors.white,
+        // textTheme: const TextTheme(
+        //   bodyLarge: TextStyle(color: Colors.white),
+        //   bodyMedium: TextStyle(color: Colors.black),
+        //   bodySmall: TextStyle(color: Colors.white),
+        //   titleLarge: TextStyle(color: Colors.white),
+        // ),
+        // cupertinoOverrideTheme: const CupertinoThemeData(
+        //   brightness: Brightness.light,
+        //   scaffoldBackgroundColor: Colors.white,
+        //   textTheme: CupertinoTextThemeData(
+        //     textStyle: TextStyle(color: Colors.white, fontFamily: 'Nunito'),
+        //   ),
+        // ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Nunito',
+        // scaffoldBackgroundColor: Colors.black,
+        // textTheme: const TextTheme(
+        //   bodyLarge: TextStyle(color: Colors.white),
+        //   bodyMedium: TextStyle(color: Colors.black),
+        //   bodySmall: TextStyle(color: Colors.white),
+        //   titleLarge: TextStyle(color: Colors.white),
+        // ),
+        // cupertinoOverrideTheme: const CupertinoThemeData(
+        //   brightness: Brightness.dark,
+        //   scaffoldBackgroundColor: Colors.black,
+        //   textTheme: CupertinoTextThemeData(
+        //     textStyle: TextStyle(color: Colors.white, fontFamily: 'Nunito'),
+        //   ),
+        // ),
+      ),
+      // themeMode: ThemeMode.system,
+      
+
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case 'splash':
@@ -42,8 +82,8 @@ class MainApp extends StatelessWidget {
             return CupertinoPageRoute(
               builder: (context) => const OnboardingScreen(),
             );
-          case 'home':
-            return CupertinoPageRoute(builder: (context) => const HomeScreen());
+          case '/':
+            return CupertinoPageRoute(builder: (context) => const NavigationScreen());
           default:
             return CupertinoPageRoute(
               builder: (context) => const SplashScreen(),
@@ -52,7 +92,6 @@ class MainApp extends StatelessWidget {
       },
       onUnknownRoute: (settings) =>
           CupertinoPageRoute(builder: (context) => const SignUpScreen()),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabib_line/gen/assets.gen.dart';
+import 'dart:math';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, 'onboarding');
     });
   }
@@ -20,46 +21,46 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Transform.rotate(
-        angle: 30 * 3.1415926535 / 180,
-
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: Colors.white,
-          child: Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(width: 40, height: 40, color: Color(0xFF254EDB)),
-                Positioned(
-                  bottom: 50,
+      body: Container(
+        alignment: Alignment.center,
+        color: Colors.white,
+        width: double.infinity,
+        height: double.infinity,
+        child: Center(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Faqat orqa kvadrat rotate bo‘ladi
+              Transform.rotate(
+                angle: 45 * pi / 180,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color : const Color(0xFF254EDB),),
+                ),
+              ),
+              // Logotip ustida o‘zgarishsiz turadi
+              Assets.images.splashLogo1.svg(height: 100, width: 100),
+              // Tagidagi text
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
                   child: Text(
                     'TabibLine',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontFamily: 'Nunito',
                     ),
                   ),
                 ),
-                Assets.images.splashLogo1.svg(),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-  // Assets.images.splashLogo1.svg(),
-  //               const SizedBox(height: 20),
-  //               const Text(
-  //                 'TabibLine',
-  //                 style: TextStyle(
-  //                   fontSize: 40,
-  //                   fontWeight: FontWeight.bold,
-  //                   color: Colors.white,
-  //                   fontFamily: 'Nunito',
-  //                 ),

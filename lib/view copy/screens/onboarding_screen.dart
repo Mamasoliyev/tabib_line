@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:tabib_line/gen/assets.gen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -11,234 +8,231 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  late PageController _pageController;
-  int currentIndex = 0;
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+  String _selectedLanguage = 'O‘zbek tili';
 
-  @override
-  void initState() {
-    _pageController = PageController();
-    super.initState();
-  }
+  final List<String> images = [
+    'assets/images/onboarding1.png',
+    'assets/images/onboarding2.png',
+    'assets/images/onboarding3.png',
+  ];
+  final List<String> text1 = [
+    "Welcome",
+    "Choose Specialization",
+    "Schedule Your First Appointment",
+  ];
 
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  final List<String> text2 = [
+    "We will assist you in efficiently and easily scheduling appointments with doctors. Let’s get started!",
+    "Select the medical specialization you need so we can tailor your experience.",
+    "Choose a suitable time and date to meet your preferred doctor. Begin your journey to better health!",
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    List<String> paths = [
-      Assets.images.onboarding1.path,
-      Assets.images.onboarding2.path,
-      Assets.images.onboarding3.path,
-    ];
-    List<String> text1s = [
-      'Online Home Store\nand Furniture\n',
-      'Delivery Right to Your\nDoorstep\n',
-      'Get Support From Our\nSkilled Team\n',
-    ];
-    // List<String> text2s = [
-    //   'Discover all style and budgets of\nfurniture, appliances, kitchen, and more\nfrom 500+ brands in your hand.',
-    //   'Sit back, and enjoy the convenience of\nour drivers delivering your\norder to your doorstep.',
-    //   'If our products don\'t meet your\nexpectations, we\'re available 24/7 to\nassist you.',
-    // ];
-
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      body: Column(
-        children: [
-          buildPageView(
-            path: paths[currentIndex],
-            text1: text1s[currentIndex],
-            // text2: text2s[currentIndex],
-          ),
-          buildIndicators(),
-          const SizedBox(height: 20),
-          buildNavigation(context, width),
-        ],
-      ),
-    );
-  }
-
-  Column buildNavigation(BuildContext context, double width) {
-    return Column(
-      children: [
-        currentIndex != 0
-            ? Row(
-                spacing: 40,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      if (currentIndex != 0) {
-                        _pageController.previousPage(
-                          duration: Durations.short3,
-                          curve: Curves.linear,
-                        );
+      backgroundColor: const Color(0xFFE6EBF5),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // til tanlash o‘ng yuqori
+            Positioned(
+              right: 16,
+              top: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.blue, width: 1),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _selectedLanguage,
+                    items: ['O‘zbek tili', 'Ingliz tili', 'Rus tili'].map((
+                      lang,
+                    ) {
+                      return DropdownMenuItem(
+                        value: lang,
+                        child: Text(lang, style: const TextStyle(fontSize: 14)),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() {
+                          _selectedLanguage = val;
+                        });
                       }
                     },
-                    child: const Text(
-                      'Back',
-                      style: TextStyle(color: Color(0xFF156651), fontSize: 30),
-                    ),
+                    icon: const Icon(Icons.language),
                   ),
-                  InkWell(
-                    onTap: () {
-                      log(_pageController.page.toString());
-                      if (currentIndex != 2) {
-                        _pageController.nextPage(
-                          duration: Durations.medium4,
-                          curve: Easing.linear,
-                        );
-                      } else if (currentIndex == 2) {
-                        Navigator.pushNamed(context, 'log_in');
-                      }
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                // Rasm qismi
+                Expanded(
+                  flex: 5,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: images.length,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
                     },
-                    child: Ink(
-                      width: width * 0.4,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: const Color(0xFF156651),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Next",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Image.asset(images[index], fit: BoxFit.contain),
+                      );
+                    },
+                  ),
+                ),
+
+                // indikator — QOTGAN holatda
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      images.length,
+                      (dotIndex) => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        height: 4,
+                        width: 24,
+                        decoration: BoxDecoration(
+                          color: _currentIndex == dotIndex
+                              ? Colors.blue
+                              : Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ),
                     ),
                   ),
-                ],
-              )
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: InkWell(
-                  onTap: () {
-                    log(_pageController.page.toString());
-                    if (currentIndex != 2) {
-                      _pageController.nextPage(
-                        duration: Durations.medium4,
-                        curve: Easing.linear,
-                      );
-                    }
-                  },
-                  child: Ink(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: const Color(0xFF156651),
+                ),
+                                    SizedBox(height: 10,),
+
+                // matn
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
                     ),
-                    child: const Center(
-                      child: Text(
-                        "Next",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
                       ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 16),
+                        Text(
+                          text1[_currentIndex],
+                          style: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          text2[_currentIndex],
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.black54,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFF9FAFB),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, 'log_in');
+                                },
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10),
+
+                                    const Text(
+                                      "Skip",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF254EDB),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  if (_currentIndex < images.length - 1) {
+                                    _pageController.nextPage(
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  } else {
+                                    Navigator.pushNamed(context, 'log_in');
+                                  }
+                                },
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10),
+                                    const Text(
+                                      "Next",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                      ],
                     ),
                   ),
                 ),
-              ),
-      ],
-    );
-  }
-
-  Row buildIndicators() {
-    return Row(
-      spacing: 15,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        3,
-        (index) => Container(
-          height: 15,
-          width: currentIndex == index ? 45 : 15,
-          decoration: BoxDecoration(
-            color: const Color(0xFF156651),
-            borderRadius: BorderRadius.circular(15),
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
-
-  SizedBox buildPageView({
-    required String path,
-    required String text1,
-    // required String text2,
-  }) {
-    return SizedBox(
-      height: 630,
-      child: PageView(
-        controller: _pageController,
-        onPageChanged: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-        },
-        children: List.generate(
-          3,
-          (index) => Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Image.asset(
-              //   path,
-              //   width: double.infinity,
-              //   height: 400,
-              //   fit: BoxFit.cover,
-              // ),
-              ClipPath(
-                clipper: BottomOvalClipper(),
-                child: Image.asset(
-                  path,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 430,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: text1,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    // TextSpan(text: text2, style: TextStyle(fontSize: 18)),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class BottomOvalClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-
-    path.lineTo(0, size.height - 50); // go near bottom
-    path.quadraticBezierTo(
-      size.width / 2,
-      size.height + 50, // control point
-      size.width,
-      size.height - 50, // end point
-    );
-    path.lineTo(size.width, 0); // top-right
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
