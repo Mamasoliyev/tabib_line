@@ -9,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
+          child: Column(
             children: [
               Row(
                 children: const [
@@ -82,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 12),
 
               Wrap(
-                spacing: 10,
-                runSpacing: 10,
+                spacing: 15,
+                runSpacing: 15,
                 children: [
                   categoryItem(
                     Icons.medical_services,
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   categoryItem(
                     Icons.home_work_sharp,
-                    "General",
+                    "Terapevty",
                     Colors.purple[100]!,
                     context,
                   ),

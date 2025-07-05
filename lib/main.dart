@@ -7,7 +7,6 @@ import 'package:tabib_line/view/screens/log_in_screen.dart';
 import 'package:tabib_line/view/screens/onboarding_screen.dart';
 import 'package:tabib_line/view/screens/sign_up_screen.dart';
 import 'package:tabib_line/view/screens/splash_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tabib_line/firebase_options.dart';
 import 'package:tabib_line/view_model/buttom_navigation_provider.dart';
@@ -64,9 +63,8 @@ class MainApp extends StatelessWidget {
           //   ),
           // ),
         ),
+
         // themeMode: ThemeMode.system,
-        
-      
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case 'splash':
@@ -86,7 +84,9 @@ class MainApp extends StatelessWidget {
                 builder: (context) => const OnboardingScreen(),
               );
             case '/':
-              return CupertinoPageRoute(builder: (context) => const NavigationScreen());
+              return CupertinoPageRoute(
+                builder: (context) => const NavigationScreen(),
+              );
             default:
               return CupertinoPageRoute(
                 builder: (context) => const SplashScreen(),
