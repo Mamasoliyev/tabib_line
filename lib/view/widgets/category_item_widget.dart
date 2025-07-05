@@ -11,10 +11,10 @@ Widget categoryItem(
     "Dentistry": "Stomatolog",
     "Cardiology": "Kardiolog",
     "Pulmonology": "Pulmonolog",
-    "General": "Terapevt",
+    "Terapevty": "Terapevt",
     "Neurology": "Nevrolog",
     "Gastroen..": "Gastroenterolog",
-    "Laborant": "Laborant",
+    "Laboratory": "Laborant",
     "Vaccination": "Immunolog",
   };
 

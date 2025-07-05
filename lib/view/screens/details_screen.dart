@@ -33,9 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
       }
 
       setState(() {
-        doctors = snapshot.docs
-            .map((doc) => doc.data() as Map<String, dynamic>)
-            .toList();
+        doctors = snapshot.docs.map((doc) => doc.data()).toList();
       });
     } catch (e) {
       print('Error loading doctors: $e');
@@ -53,7 +51,8 @@ class _DetailScreenState extends State<DetailScreen> {
               itemCount: doctors.length,
               itemBuilder: (context, index) {
                 final doctor = doctors[index];
-                final reviews = doctor['reviews'] as Map<String, dynamic>? ?? {};
+                final reviews =
+                    doctor['reviews'] as Map<String, dynamic>? ?? {};
                 final rating = doctor['rating']?.toDouble() ?? 0.0;
                 final name = doctor['name'] ?? 'No name';
                 final position = doctor['position'] ?? '';
