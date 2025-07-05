@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.light,
-          fontFamily: 'Nunito',
+          fontFamily: 'Comfortaa',
           // scaffoldBackgroundColor: Colors.white,
           // textTheme: const TextTheme(
           //   bodyLarge: TextStyle(color: Colors.white),
@@ -47,7 +47,7 @@ class MainApp extends StatelessWidget {
         ),
         darkTheme: ThemeData(
           brightness: Brightness.dark,
-          fontFamily: 'Nunito',
+          fontFamily: 'Comfortaa',
           // scaffoldBackgroundColor: Colors.black,
           // textTheme: const TextTheme(
           //   bodyLarge: TextStyle(color: Colors.white),
