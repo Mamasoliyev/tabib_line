@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class DoctorListScreen extends StatefulWidget {
+class DetailScreen extends StatefulWidget {
   final String specialty;
 
-  DoctorListScreen({super.key, required this.specialty});
+  DetailScreen({super.key, required this.specialty});
 
   @override
-  State<DoctorListScreen> createState() => _DoctorListScreenState();
+  State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class _DoctorListScreenState extends State<DoctorListScreen> {
+class _DetailScreenState extends State<DetailScreen> {
   List<Map<String, dynamic>> doctors = [];
 
   @override

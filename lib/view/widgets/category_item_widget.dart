@@ -25,7 +25,7 @@ Widget categoryItem(
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DoctorListScreen(specialty: firestorePosition),
+          builder: (context) => DetailScreen(specialty: firestorePosition),
         ),
       );
     },
