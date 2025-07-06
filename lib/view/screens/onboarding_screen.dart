@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tabib_line/gen/assets.gen.dart';
+import 'package:tabib_line/view/widgets/auth_main_button_widget.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -98,6 +100,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                 // indikator — QOTGAN holatda
                 Container(
+                  // margin: EdgeInsets.symmetric(horizontal: 16),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -118,7 +121,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
-                                    SizedBox(height: 10,),
+                SizedBox(height: 10),
 
                 // matn
                 Expanded(
@@ -159,35 +162,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         const Spacer(),
                         Row(
                           children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFF9FAFB),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, 'log_in');
-                                },
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 10),
-
-                                    const Text(
-                                      "Skip",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                              ),
+                            MainButton(
+                              text: "Skip",
+                              textColor: Colors.black,
+                              color: const Color(0xFFF9FAFB),
+                              onPressed: () {
+                                // Masalan: oxirgi sahifaga sakrash
+                                _pageController.jumpToPage(images.length - 1);
+                              },
                             ),
+
                             const SizedBox(width: 16),
-                            MainButton(currentIndex: _currentIndex, images: images, pageController: _pageController , text: 'Next'),
+                            MainButton(
+                              text: "Next",
+                              textColor: Colors.white,
+                              color: const Color(0xFF254EDB),
+                              onPressed: () {
+                                if (_currentIndex < images.length - 1) {
+                                  _pageController.nextPage(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                  );
+                                } else {
+                                  Navigator.pushNamed(context, 'log_in');
+                                }
+                              },
+                            ),
                           ],
                         ),
                         const SizedBox(height: 20),
@@ -197,64 +197,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MainButton extends StatelessWidget {
-  MainButton({
-    super.key,
-    required int currentIndex,
-    required this.images,
-    required PageController pageController,
-    required this.text,
-    this.image
-
-  }) : _currentIndex = currentIndex, _pageController = pageController;
-
-  final int _currentIndex;
-  final List<String> images;
-  final PageController _pageController;
-  String text;
-  Svg? image;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF254EDB),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        onPressed: () {
-          if (_currentIndex < images.length - 1) {
-            _pageController.nextPage(
-              duration: const Duration(
-                milliseconds: 300,
-              ),
-              curve: Curves.easeInOut,
-            );
-          } else {
-            Navigator.pushNamed(context, 'log_in');
-          }
-        },
-        child: Column(
-          children: [
-            SizedBox(height: 10),
-             Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-              ),
-            ),
-            SizedBox(height: 10),
           ],
         ),
       ),
