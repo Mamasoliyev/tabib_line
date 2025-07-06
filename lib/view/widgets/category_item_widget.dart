@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabib_line/utils/sizeBox.dart';
 import 'package:tabib_line/view/screens/details_screen.dart';
 
 Widget categoryItem(
@@ -40,11 +41,15 @@ Widget categoryItem(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 30, color: Colors.black87),
-          const SizedBox(height: 8),
+          10.h,
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, color: Colors.black),
+            style: const TextStyle(
+              fontSize: 10,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),

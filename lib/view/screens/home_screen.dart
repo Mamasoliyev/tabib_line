@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tabib_line/utils/sizeBox.dart';
 import 'package:tabib_line/view/widgets/category_item_widget.dart';
+import 'package:tabib_line/view/widgets/doctor_infos.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,34 +12,53 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Map<String, dynamic>> topDoctors = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadTopDoctors();
+  }
+
+  Future<void> loadTopDoctors() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('Doctors')
+        .orderBy('rating', descending: true)
+        .limit(2)
+        .get();
+
+    setState(() {
+      topDoctors = snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
+          child: ListView(
             children: [
               Row(
                 children: const [
                   Icon(Icons.location_on, color: Colors.blue),
-                  SizedBox(width: 8),
+
                   Text(
                     "Uzbekiston",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              25.h,
 
               Container(
                 height: 120,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.green[100],
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: NetworkImage(
                       'https://cdn.doctoranytime.gr/practices/b4da25df-d298-4b10-8627-e5664a7d2184.jpg',
                     ),
@@ -45,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(16),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -67,19 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    "Categories",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Text("See All", style: TextStyle(color: Colors.blue)),
-                ],
+              24.h,
+              Text(
+                "Categories",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 12),
+              12.h,
 
               Wrap(
                 spacing: 15,
@@ -135,7 +151,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+
+              40.h,
+
+              const Text(
+                "Top Rated Doctors",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              12.h,
+
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: topDoctors.map((doctor) {
+                    return DoctorInfos(doctor: doctor, width: 300);
+                  }).toList(),
+                ),
+              ),
             ],
           ),
         ),
