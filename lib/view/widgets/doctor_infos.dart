@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabib_line/utils/sizeBox.dart';
+import 'package:tabib_line/view/screens/doktor_details_screen.dart';
 
 class DoctorInfos extends StatelessWidget {
   final Map<String, dynamic> doctor;
@@ -34,97 +35,107 @@ class DoctorInfos extends StatelessWidget {
           ),
           12.h,
         ],
-        Container(
-          width: width,
-          height: 150,
-          margin: const EdgeInsets.only(right: 12),
-          child: Card(
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      imageUrl,
-                      width: 80,
-                      height: 120,
-                      fit: BoxFit.cover,
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DoctorDetailScreen(doctor: doctor),
+              ),
+            );
+          },
+          child: Container(
+            width: width,
+            height: 150,
+            margin: const EdgeInsets.only(right: 12),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        imageUrl,
+                        width: 80,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  15.w,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        3.h,
-                        Text(
-                          'Dr. $name',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          position,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        6.h,
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.location_on,
-                              size: 16,
-                              color: Colors.orange,
+                    15.w,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          3.h,
+                          Text(
+                            'Dr. $name',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                            5.w,
-                            Flexible(
-                              child: Text(
-                                workplace,
+                          ),
+                          Text(
+                            position,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          6.h,
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                size: 16,
+                                color: Colors.orange,
+                              ),
+                              5.w,
+                              Flexible(
+                                child: Text(
+                                  workplace,
+                                  style: const TextStyle(fontSize: 13),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                size: 16,
+                                color: Colors.orange,
+                              ),
+                              5.w,
+                              Text(
+                                rating.toStringAsFixed(1),
                                 style: const TextStyle(fontSize: 13),
-                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              size: 16,
-                              color: Colors.orange,
-                            ),
-                            5.w,
-                            Text(
-                              rating.toStringAsFixed(1),
-                              style: const TextStyle(fontSize: 13),
-                            ),
-                            10.w,
-                            Text(
-                              '${reviews.length} Reviews',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF6C6C6C),
+                              10.w,
+                              Text(
+                                '${reviews.length} Reviews',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Color(0xFF6C6C6C),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.favorite_border),
-                    onPressed: () {},
-                  ),
-                ],
+                    IconButton(
+                      icon: const Icon(Icons.favorite_border),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
