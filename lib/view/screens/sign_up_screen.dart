@@ -1,10 +1,11 @@
 import 'dart:developer';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tabib_line/gen/assets.gen.dart';
-import 'package:tabib_line/service/cache_helper.dart';
+import 'package:tabib_line/view/widgets/auth_main_button_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -31,39 +32,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool emailValid = false;
   bool isLogin = false;
 
-  static const String _firstNameKey = "firstName";
-  static const String _lastNameKey = "lastName";
-  static const String _emailKey = "email";
-  static const String _passwordKey = "password";
-  static const String _rememberMeKey = "rememberMe";
-
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () async {
-      await _loadSavedData();
-      setState(() {
-        isLoading = false;
-      });
-    });
+
     passwordController.addListener(() {
       final pass = passwordController.text;
       setState(() {
         passwordStrength = _getPasswordStrength(pass1: pass);
       });
     });
-  }
-
-  Future<void> _loadSavedData() async {
-    await CacheHelper.init();
-    rememberMe = CacheHelper.getBool(_rememberMeKey) ?? false;
-
-    if (rememberMe) {
-      firstNameController.text = CacheHelper.getString(_firstNameKey) ?? '';
-      lastNameController.text = CacheHelper.getString(_lastNameKey) ?? '';
-      emailController.text = CacheHelper.getString(_emailKey) ?? '';
-      passwordController.text = CacheHelper.getString(_passwordKey) ?? '';
-    }
   }
 
   @override
@@ -84,316 +62,328 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     // final width = MediaQuery.of(context).size.width;
-    if (isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    } else {
-      return Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                // bottom: MediaQuery.of(context).viewInsets.bottom,
-                left: 16,
-                right: 16,
-                top: 16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 30),
-                  Text(
-                    "Create Account",
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 30),
+                Text(
+                  "Create Account",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Fill in your details below to get started on a seamless shopping experience.",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Fill in your details below to get started on a seamless shopping experience.",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 30),
+                // First Name
+                Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // First name
+                      TextFormField(
+                        controller: firstNameController,
+                        maxLength: 30,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.person),
+                          labelText: "First name",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          suffixIcon: firstNameValid
+                              ? const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                )
+                              : null,
+                        ),
+                        onChanged: (value) {
+                          final trimmed = value.trim();
+                          bool valid = RegExp(
+                            r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
+                          ).hasMatch(trimmed);
+                          setState(() {
+                            firstNameValid =
+                                trimmed.isNotEmpty &&
+                                trimmed.length >= 2 &&
+                                valid;
+                          });
+                        },
+                        validator: (value) {
+                          final trimmed = value?.trim() ?? '';
+                          List<String> errors = [];
+                          if (trimmed.isEmpty) {
+                            errors.add('Ism kiritilishi shart');
+                          }
+                          if (trimmed.length < 2) {
+                            errors.add('Ism 2 ta belgidan kam bo‘lmasin');
+                          }
+                          if (!RegExp(
+                            r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
+                          ).hasMatch(trimmed)) {
+                            errors.add('Faqat harflar ruxsat etiladi');
+                          }
+                          if (errors.isEmpty) return null;
+                          return errors.join('\n');
+                        },
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Last name
+                      TextFormField(
+                        controller: lastNameController,
+                        maxLength: 30,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.person),
+                          labelText: "Last name",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          suffixIcon: lastNameValid
+                              ? const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                )
+                              : null,
+                        ),
+                        onChanged: (value) {
+                          final trimmed = value.trim();
+                          bool valid = RegExp(
+                            r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
+                          ).hasMatch(trimmed);
+                          setState(() {
+                            lastNameValid =
+                                trimmed.isNotEmpty &&
+                                trimmed.length >= 2 &&
+                                valid;
+                          });
+                        },
+                        validator: (value) {
+                          final trimmed = value?.trim() ?? '';
+                          List<String> errors = [];
+                          if (trimmed.isEmpty) {
+                            errors.add('Familiya kiritilishi shart');
+                          }
+                          if (trimmed.length < 2) {
+                            errors.add('Familiya 2 ta belgidan kam bo‘lmasin');
+                          }
+                          if (!RegExp(
+                            r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
+                          ).hasMatch(trimmed)) {
+                            errors.add('Faqat harflar ruxsat etiladi');
+                          }
+                          if (errors.isEmpty) return null;
+                          return errors.join('\n');
+                        },
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Email
+                      TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.email),
+                          labelText: "Email",
+                          suffixIcon: emailValid
+                              ? const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                )
+                              : null,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          final trimmed = value.trim();
+                          bool valid = RegExp(
+                            r"^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$",
+                          ).hasMatch(trimmed);
+                          setState(() {
+                            emailValid =
+                                trimmed.isNotEmpty &&
+                                trimmed.length >= 2 &&
+                                valid;
+                          });
+                        },
+
+                        validator: (value) {
+                          final trimmed = value?.trim() ?? '';
+                          if (trimmed.isEmpty) {
+                            return 'Email kiritilishi shart';
+                          }
+                          if (!RegExp(
+                            r"^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$",
+                          ).hasMatch(trimmed)) {
+                            return 'Noto‘g‘ri email';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Password
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: !isVisible,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isVisible = !isVisible;
+                              });
+                            },
+                            icon: Icon(
+                              isVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                          ),
+                          labelText: "Password",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        validator: (value) {
+                          final trimmed = value?.trim() ?? '';
+                          if (trimmed.isEmpty) {
+                            return 'Parol kiritilishi shart';
+                          }
+                          if (trimmed.length < 6) {
+                            return 'Kamida 6 belgi bo‘lsin';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 6),
+
+                      // password kuchi ko‘rsatkich
+                      Text(
+                        passwordStrength,
+                        style: TextStyle(
+                          color: passwordStrength == "Kuchli"
+                              ? Colors.green
+                              : (passwordStrength == "O‘rtacha"
+                                    ? Colors.orange
+                                    : Colors.red),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+                    ],
                   ),
-                  const SizedBox(height: 30),
-                  // First Name
-                  Form(
-                    key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // First name
-                        TextFormField(
-                          controller: firstNameController,
-                          maxLength: 30,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            labelText: "First name",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            suffixIcon: firstNameValid
-                                ? const Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green,
-                                  )
-                                : null,
-                          ),
-                          onChanged: (value) {
-                            final trimmed = value.trim();
-                            bool valid = RegExp(
-                              r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
-                            ).hasMatch(trimmed);
-                            setState(() {
-                              firstNameValid =
-                                  trimmed.isNotEmpty &&
-                                  trimmed.length >= 2 &&
-                                  valid;
-                            });
-                          },
-                          validator: (value) {
-                            final trimmed = value?.trim() ?? '';
-                            List<String> errors = [];
-                            if (trimmed.isEmpty) {
-                              errors.add('Ism kiritilishi shart');
-                            }
-                            if (trimmed.length < 2) {
-                              errors.add('Ism 2 ta belgidan kam bo‘lmasin');
-                            }
-                            if (!RegExp(
-                              r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
-                            ).hasMatch(trimmed)) {
-                              errors.add('Faqat harflar ruxsat etiladi');
-                            }
-                            if (errors.isEmpty) return null;
-                            return errors.join('\n');
-                          },
+                ),
+
+                Text.rich(
+                  TextSpan(
+                    text:
+                        "By clicking Create Account, you acknowledge you have read and agreed to our ",
+                    children: [
+                      TextSpan(
+                        text: "Terms of Use",
+                        style: TextStyle(
+                          color: const Color(0xFF254EDB),
+                          fontWeight: FontWeight.w900,
                         ),
-
-                        const SizedBox(height: 16),
-
-                        // Last name
-                        TextFormField(
-                          controller: lastNameController,
-                          maxLength: 30,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            labelText: "Last name",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            suffixIcon: lastNameValid
-                                ? const Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green,
-                                  )
-                                : null,
-                          ),
-                          onChanged: (value) {
-                            final trimmed = value.trim();
-                            bool valid = RegExp(
-                              r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
-                            ).hasMatch(trimmed);
-                            setState(() {
-                              lastNameValid =
-                                  trimmed.isNotEmpty &&
-                                  trimmed.length >= 2 &&
-                                  valid;
-                            });
-                          },
-                          validator: (value) {
-                            final trimmed = value?.trim() ?? '';
-                            List<String> errors = [];
-                            if (trimmed.isEmpty) {
-                              errors.add('Familiya kiritilishi shart');
-                            }
-                            if (trimmed.length < 2) {
-                              errors.add(
-                                'Familiya 2 ta belgidan kam bo‘lmasin',
-                              );
-                            }
-                            if (!RegExp(
-                              r"^[a-zA-Zа-яА-ЯёЁўғқҳҲҚЎҒ\s]+$",
-                            ).hasMatch(trimmed)) {
-                              errors.add('Faqat harflar ruxsat etiladi');
-                            }
-                            if (errors.isEmpty) return null;
-                            return errors.join('\n');
-                          },
+                      ),
+                      const TextSpan(text: " and "),
+                      TextSpan(
+                        text: "Privacy Policy",
+                        style: TextStyle(
+                          color: const Color(0xFF254EDB),
+                          fontWeight: FontWeight.w900,
                         ),
-
-                        const SizedBox(height: 16),
-
-                        // Email
-                        TextFormField(
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.email),
-                            labelText: "Email",
-                            suffixIcon: emailValid
-                                ? const Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green,
-                                  )
-                                : null,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            final trimmed = value.trim();
-                            bool valid = RegExp(
-                              r"^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$",
-                            ).hasMatch(trimmed);
-                            setState(() {
-                              emailValid =
-                                  trimmed.isNotEmpty &&
-                                  trimmed.length >= 2 &&
-                                  valid;
-                            });
-                          },
-
-                          validator: (value) {
-                            final trimmed = value?.trim() ?? '';
-                            if (trimmed.isEmpty) {
-                              return 'Email kiritilishi shart';
-                            }
-                            if (!RegExp(
-                              r"^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$",
-                            ).hasMatch(trimmed)) {
-                              return 'Noto‘g‘ri email';
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Password
-                        TextFormField(
-                          controller: passwordController,
-                          obscureText: !isVisible,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.lock),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isVisible = !isVisible;
-                                });
-                              },
-                              icon: Icon(
-                                isVisible
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                              ),
-                            ),
-                            labelText: "Password",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          validator: (value) {
-                            final trimmed = value?.trim() ?? '';
-                            if (trimmed.isEmpty) {
-                              return 'Parol kiritilishi shart';
-                            }
-                            if (trimmed.length < 6) {
-                              return 'Kamida 6 belgi bo‘lsin';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 6),
-
-                        // password kuchi ko‘rsatkich
-                        Text(
-                          passwordStrength,
-                          style: TextStyle(
-                            color: passwordStrength == "Kuchli"
-                                ? Colors.green
-                                : (passwordStrength == "O‘rtacha"
-                                      ? Colors.orange
-                                      : Colors.red),
-                          ),
-                        ),
-
-                        // const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Remember me'),
-
-                            Switch(
-                              value: rememberMe,
-                              activeColor: Colors.green,
-                              onChanged: (value) {
-                                setState(() {
-                                  rememberMe = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
+                ),
+                const SizedBox(height: 16),
 
-                  Text.rich(
-                    TextSpan(
-                      text:
-                          "By clicking Create Account, you acknowledge you have read and agreed to our ",
-                      children: [
-                        TextSpan(
-                          text: "Terms of Use",
-                          style: TextStyle(
-                            color: Color(0xFF156651),
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        const TextSpan(text: " and "),
-                        TextSpan(
-                          text: "Privacy Policy",
-                          style: TextStyle(
-                            color: Color(0xFF156651),
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    MainButton(
+                      text: "Create Account",
+                      textColor: Colors.white,
 
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
+                      color: const Color(0xFF254EDB),
+
                       onPressed: () async {
                         print("bosildi");
                         try {
-                          if (isLogin) {
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                );
-                          } else {
-                            final userCredential = await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                );
-                            FirebaseFirestore.instance
+                          final email = emailController.text.trim();
+                          final password = passwordController.text.trim();
+                          final firstName = firstNameController.text.trim();
+                          final lastName = lastNameController.text.trim();
+
+                          // foydalanuvchini yaratamiz
+                          final userCredential = await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                email: email,
+                                password: password,
+                              );
+
+                          final userId = userCredential.user?.uid;
+
+                          if (userId != null) {
+                            // bazada shunday user bor-yo‘qligini tekshiramiz
+                            final userDoc = await FirebaseFirestore.instance
                                 .collection("users")
-                                .doc(FirebaseAuth.instance.currentUser!.uid)
-                                .set({
-                                  "name":
-                                      firstNameController.text.trim() +
-                                      ' ' +
-                                      lastNameController.text.trim(),
-                                  "email": emailController.text.trim(),
-                                });
-                            log(userCredential.toString());
-                            log(userCredential.user?.uid.toString() ?? '');
+                                .doc(userId)
+                                .get();
+
+                            if (!userDoc.exists) {
+                              // agar mavjud bo‘lmasa, yangi yozuv qo‘shamiz
+                              await FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(userId)
+                                  .set({
+                                    "name": "$firstName $lastName",
+                                    "email": email,
+                                    "createdAt": FieldValue.serverTimestamp(),
+                                  });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "Ro'yxatdan o'tish muvaffaqiyatli!",
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+
+                          // create bo‘lgach login pagega yuboramiz
+                          Navigator.pushNamed(context, 'log_in');
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'email-already-in-use') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Bu email ro'yxatdan o'tgan, log in qiling",
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.message ?? "Xatolik yuz berdi"),
+                              ),
+                            );
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(
@@ -401,58 +391,81 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ).showSnackBar(SnackBar(content: Text(e.toString())));
                         }
                       },
-                    
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Color(0xFFFFFFFF),
-                        backgroundColor: Color(0xFF156651),
-                        // side: BorderSide(color: Color(0xFF156651)),
-                      ),
-                      child: const Text("Create Account"),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: const [
-                      Expanded(child: Divider()),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text("OR"),
-                      ),
-                      Expanded(child: Divider()),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: const [
+                    Expanded(child: Divider()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text("OR"),
+                    ),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                Row(
+                  children: [
+                    MainButton(
+                      rasm: Assets.images.facebookLogo.svg(),
+                      text: "Sign in with Facebook",
+                      textColor: Color(0xFF4F73DF),
+
+                      color: const Color(0xFFF9FAFB),
+
                       onPressed: () {},
-                      icon: Assets.images.googleLogo.svg(),
-                      label: const Text("Continue with Google"),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Color(0xFF156651),
-                        side: BorderSide(color: Color(0xFF156651)),
-                      ),
+                      // rasm: Assets.i,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                Row(
+                  children: [
+                    MainButton(
+                      rasm: Assets.images.googleLogo.svg(),
+                      text: "Sign in with Google",
+                      textColor: Colors.white,
+
+                      color: const Color(0xFF254EDB),
+
+                      onPressed: () {
+                        // Masalan: oxirgi sahifaga sakrash
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 16),
+
+                SizedBox(height: 20),
+                Center(
+                  child: Text.rich(
+                    textAlign: TextAlign.center,
+                    TextSpan(
+                      text: 'Already have an account?   ',
+                      children: [
+                        TextSpan(
+                          text: "Log In",
+                          style: TextStyle(
+                            color: const Color(0xFF254EDB),
+                            fontWeight: FontWeight.w900,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () =>
+                                Navigator.pushNamed(context, 'log_in'),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: Assets.images.facebookLogo.svg(),
-                      label: const Text("Continue with Facebook"),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Color(0xFF156651),
-                        side: BorderSide(color: Color(0xFF156651)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 }

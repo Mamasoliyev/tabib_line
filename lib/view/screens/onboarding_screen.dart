@@ -40,42 +40,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Stack(
           children: [
             // til tanlash o‘ng yuqori
-            Positioned(
-              right: 16,
-              top: 16,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.blue, width: 1),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: _selectedLanguage,
-                    items: ['O‘zbek tili', 'Ingliz tili', 'Rus tili'].map((
-                      lang,
-                    ) {
-                      return DropdownMenuItem(
-                        value: lang,
-                        child: Text(lang, style: const TextStyle(fontSize: 14)),
-                      );
-                    }).toList(),
-                    onChanged: (val) {
-                      if (val != null) {
-                        setState(() {
-                          _selectedLanguage = val;
-                        });
-                      }
-                    },
-                    icon: const Icon(Icons.language),
-                  ),
-                ),
-              ),
-            ),
             Column(
               children: [
                 // Rasm qismi
@@ -147,6 +111,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -196,6 +161,49 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ],
+            ),
+            Positioned(
+              right: 16,
+              top: 16,
+              child: Material(
+                // qo‘shildi
+                color: Colors.transparent,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.blue, width: 1),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedLanguage,
+                      icon: const Icon(Icons.language),
+                      items: ['O‘zbek tili', 'Ingliz tili', 'Rus tili'].map((
+                        lang,
+                      ) {
+                        return DropdownMenuItem(
+                          value: lang,
+                          child: Text(
+                            lang,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            _selectedLanguage = val;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
