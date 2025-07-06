@@ -55,7 +55,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
-      initialRoute: 'navigation',
+      initialRoute: 'splash',
       debugShowCheckedModeBanner: false,
       locale: context.locale,
       supportedLocales: context.supportedLocales,
