@@ -84,7 +84,7 @@ class MainApp extends StatelessWidget {
           case 'onboarding':
             return CupertinoPageRoute(
               builder: (context) => const OnboardingScreen(),
-            );
+           
           case 'navigation':
             return CupertinoPageRoute(
               builder: (context) => const NavigationScreen(),

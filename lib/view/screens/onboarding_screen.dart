@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:tabib_line/gen/assets.gen.dart';
 import 'package:tabib_line/view/widgets/auth_main_button_widget.dart';
 
 class OnboardingScreen extends StatefulWidget {
