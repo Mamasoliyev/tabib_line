@@ -1,9 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tabib_line/view/screens/appointment_screen.dart';
-import 'package:tabib_line/view/screens/home_screen.dart';
-import 'package:tabib_line/view/screens/profile_screen.dart';
 import 'package:tabib_line/view_model/buttom_navigation_provider.dart';
 
 class NavigationScreen extends StatefulWidget {

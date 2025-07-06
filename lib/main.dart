@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tabib_line/service/cache_helper.dart';
+import 'package:tabib_line/view/screens/admin_screen.dart';
 import 'package:tabib_line/view/screens/navigation_screen.dart';
 import 'package:tabib_line/view/screens/log_in_screen.dart';
 import 'package:tabib_line/view/screens/onboarding_screen.dart';
@@ -84,9 +85,13 @@ class MainApp extends StatelessWidget {
             return CupertinoPageRoute(
               builder: (context) => const OnboardingScreen(),
             );
-          case '/':
+          case 'navigation':
             return CupertinoPageRoute(
               builder: (context) => const NavigationScreen(),
+            );
+            case 'admin':
+            return CupertinoPageRoute(
+              builder: (context) => const AdminPanelScreen(),
             );
           default:
             return CupertinoPageRoute(
