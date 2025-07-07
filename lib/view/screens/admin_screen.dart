@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tabib_line/view/screens/add_doctor_screen.dart';
 import 'package:tabib_line/view/screens/edit_doctor_screen.dart';
 
@@ -14,6 +15,24 @@ class AdminPanelScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Admin Panel"),
         backgroundColor: const Color(0xFF254EDB),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              try {
+                await FirebaseAuth.instance.signOut();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Muvaffaqiyatli chiqdingiz")),
+                );
+                Navigator.pushReplacementNamed(context, 'log_in');
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Xato: ${e.toString()}")),
+                );
+              }
+            },
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: doctorsCollection.snapshots(),

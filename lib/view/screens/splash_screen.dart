@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabib_line/gen/assets.gen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
 
 class SplashScreen extends StatefulWidget {
@@ -14,7 +15,15 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, 'onboarding');
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // user login bo'lgan
+        Navigator.pushReplacementNamed(context, 'navigation');
+      } else {
+        // user login bo'lmagan
+        Navigator.pushReplacementNamed(context, 'onboarding');
+      }
     });
   }
 
@@ -30,18 +39,18 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Faqat orqa kvadrat rotate bo‘ladi
               Transform.rotate(
                 angle: 45 * pi / 180,
                 child: Container(
                   width: 100,
                   height: 100,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color : const Color(0xFF254EDB),),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(0xFF254EDB),
+                  ),
                 ),
               ),
-              // Logotip ustida o‘zgarishsiz turadi
               Assets.images.splashLogo1.svg(height: 100, width: 100),
-              // Tagidagi text
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
