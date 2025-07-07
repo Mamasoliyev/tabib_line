@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tabib_line/models/appoinment_model.dart';
-import 'package:tabib_line/models/doctor_model.dart';
 import 'package:tabib_line/view/screens/payment_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 

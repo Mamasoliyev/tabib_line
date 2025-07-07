@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:tabib_line/gen/assets.gen.dart';
 import 'package:tabib_line/view/widgets/auth_main_button_widget.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -39,10 +37,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // til tanlash o‘ng yuqori
             Column(
               children: [
-                // Rasm qismi
                 Expanded(
                   flex: 5,
                   child: PageView.builder(
@@ -61,10 +57,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     },
                   ),
                 ),
-
-                // indikator — QOTGAN holatda
                 Container(
-                  // margin: EdgeInsets.symmetric(horizontal: 16),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -86,8 +79,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-
-                // matn
                 Expanded(
                   flex: 3,
                   child: Container(
@@ -132,7 +123,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               textColor: Colors.black,
                               color: const Color(0xFFF9FAFB),
                               onPressed: () {
-                                // Masalan: oxirgi sahifaga sakrash
                                 _pageController.jumpToPage(images.length - 1);
                               },
                             ),
@@ -166,7 +156,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               right: 16,
               top: 16,
               child: Material(
-                // qo‘shildi
                 color: Colors.transparent,
                 child: Container(
                   padding: const EdgeInsets.symmetric(

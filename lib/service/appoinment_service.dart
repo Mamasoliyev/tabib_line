@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:tabib_line/models/appoinment_model.dart';
 
 class AppointmentService {
@@ -31,19 +32,10 @@ class AppointmentService {
     );
   }
 
-  Future<void> addAppointment(AppointmentModel appointment) async {
-    await _collection.add(appointment.toMap());
-  }
-
-  Future<void> updateAppointment(AppointmentModel appointment) async {
-    await _collection.doc(appointment.id).update(appointment.toMap());
-  }
-
   Future<void> bookAppointment(AppointmentModel appointment) async {
     await FirebaseFirestore.instance
         .collection('appointments')
-        .doc(appointment.id)
-        .update(appointment.toMap());
+        .add(appointment.toMap());
   }
 
   Future<void> deleteAppointment(String id) async {

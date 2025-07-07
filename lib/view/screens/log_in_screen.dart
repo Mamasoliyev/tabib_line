@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tabib_line/gen/assets.gen.dart';
-import 'package:tabib_line/service/cache_helper.dart';
 import 'package:tabib_line/view/widgets/auth_main_button_widget.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -24,10 +23,6 @@ class _SignUpScreenState extends State<LogInScreen> {
 
   String passwordStrength = "";
   bool emailValid = false;
-
-  static const String _emailKey = "email";
-  static const String _passwordKey = "password";
-  static const String _rememberMeKey = "rememberMe";
 
   @override
   void initState() {
@@ -55,7 +50,6 @@ class _SignUpScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -77,7 +71,6 @@ class _SignUpScreenState extends State<LogInScreen> {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 30),
-                // First Name
                 Form(
                   key: _formKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -85,8 +78,6 @@ class _SignUpScreenState extends State<LogInScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 16),
-
-                      // Email
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -129,10 +120,7 @@ class _SignUpScreenState extends State<LogInScreen> {
                           return null;
                         },
                       ),
-
                       const SizedBox(height: 16),
-
-                      // Password
                       TextFormField(
                         controller: passwordController,
                         obscureText: !isVisible,
@@ -167,8 +155,6 @@ class _SignUpScreenState extends State<LogInScreen> {
                         },
                       ),
                       const SizedBox(height: 6),
-
-                      // password kuchi ko‘rsatkich
                       Text(
                         passwordStrength,
                         style: TextStyle(
@@ -214,14 +200,11 @@ class _SignUpScreenState extends State<LogInScreen> {
                             final email = emailController.text.trim();
                             final password = passwordController.text.trim();
 
-                            // firebase auth orqali tekshirish
                             final userCredential = await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                                   email: email,
                                   password: password,
                                 );
-
-                            // agar admin bo'lsa
                             if (email == "nodirbek7@gmail.com" &&
                                 password == "nodirbek") {
                               Navigator.pushNamed(context, 'admin');
@@ -239,7 +222,6 @@ class _SignUpScreenState extends State<LogInScreen> {
                                 ),
                               );
                             } else {
-                              // boshqa firebase xatoliklari
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -255,7 +237,6 @@ class _SignUpScreenState extends State<LogInScreen> {
                           }
                         }
                       },
-
                     ),
                   ],
                 ),
@@ -278,28 +259,20 @@ class _SignUpScreenState extends State<LogInScreen> {
                       rasm: Assets.images.facebookLogo.svg(),
                       text: "Sign in with Facebook",
                       textColor: Color(0xFF4F73DF),
-
                       color: const Color(0xFFF9FAFB),
-
                       onPressed: () {},
-                      // rasm: Assets.i,
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
-
                 Row(
                   children: [
                     MainButton(
                       rasm: Assets.images.googleLogo.svg(),
                       text: "Sign in with Google",
                       textColor: Colors.white,
-
                       color: const Color(0xFF254EDB),
-
-                      onPressed: () {
-                        // Masalan: oxirgi sahifaga sakrash
-                      },
+                      onPressed: () {},
                     ),
                   ],
                 ),
