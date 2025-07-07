@@ -3,6 +3,8 @@ import 'package:tabib_line/gen/assets.gen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
 
+import 'package:tabib_line/gen/fonts.gen.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -59,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
                       // color: Colors.black,
-                      fontFamily: 'Nunito',
+                      fontFamily: FontFamily.comfortaa,
                     ),
                   ),
                 ),

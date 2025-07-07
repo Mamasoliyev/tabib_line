@@ -35,26 +35,29 @@ class DoctorInfos extends StatelessWidget {
           ),
           12.h,
         ],
-        InkWell(
-          onTap: () {
-            Navigator.push(
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: InkWell(
+            splashColor: Theme.of(
               context,
-              MaterialPageRoute(
-                builder: (context) => DoctorDetailScreen(doctor: doctor),
-              ),
-            );
-          },
-          child: Container(
-            width: width,
-            height: 150,
-            margin: const EdgeInsets.only(right: 12),
-            child: Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
+            ).scaffoldBackgroundColor.withValues(alpha: 0.6),
+            borderRadius: BorderRadius.circular(16),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DoctorDetailScreen(doctor: doctor),
+                ),
+              );
+            },
+            child: Container(
+              width: width,
+              height: 150,
+              child: Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

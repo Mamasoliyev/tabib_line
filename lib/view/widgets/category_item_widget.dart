@@ -31,6 +31,7 @@ Widget categoryItem(
       );
     },
     child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       width: 70,
       height: 100,
       decoration: BoxDecoration(

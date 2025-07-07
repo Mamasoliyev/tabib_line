@@ -33,7 +33,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
     if (selectedStars == 0 || reviewController.text.trim().isEmpty) return;
 
     final docRef = FirebaseFirestore.instance
-        .collection('doctors')
+        .collection('Doctors')
         .doc(widget.doctorId);
     final snapshot = await docRef.get();
     final currentData = snapshot.data();
@@ -129,7 +129,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
             20.h,
             StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection('doctors')
+                  .collection('Doctors')
                   .doc(widget.doctorId)
                   .snapshots(),
               builder: (context, snapshot) {
@@ -173,6 +173,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     10.h,
                     ...reviews.entries.map((entry) {
                       final review = entry.value;

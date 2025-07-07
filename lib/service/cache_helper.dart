@@ -18,6 +18,10 @@ class CacheHelper {
     print('CacheHelper initialized successfully!');
   }
 
+  static Future<void> saveToken(String token) async {
+    await _preferences?.setString("token", token);
+  }
+
   static Future<void> saveString(String key, String value) async {
     await _preferences?.setString(key, value);
   }
@@ -48,7 +52,6 @@ class CacheHelper {
 
   static Future<void> cacheLan(Locale value) async {}
 }
-
 
 // import 'package:shared_preferences/shared_preferences.dart';
 

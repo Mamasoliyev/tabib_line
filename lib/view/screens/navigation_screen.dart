@@ -44,7 +44,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       onTap: (index) {
         value.setIndex(index);
       },
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       color: Colors.blueAccent,
       buttonBackgroundColor: Colors.amber,
       maxWidth: double.infinity,

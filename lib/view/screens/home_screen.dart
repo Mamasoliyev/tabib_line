@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final snapshot = await FirebaseFirestore.instance
         .collection('Doctors')
         .orderBy('rating', descending: true)
-        .limit(2)
+        .limit(4)
         .get();
 
     setState(() {
