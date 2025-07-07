@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tabib_line/service/cache_helper.dart';
+import 'package:tabib_line/view/screens/booking_screen.dart';
 import 'package:tabib_line/view_model/theme_provider.dart';
 import 'package:tabib_line/view_model/user_provider.dart';
 
@@ -32,12 +34,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_uid == null) {
       return Scaffold(
         body: Center(
-          child: Text('User not logged in', style: textTheme.bodyMedium),
+          child: Text("User not logged in", style: textTheme.bodyMedium),
         ),
       );
     }
     return Scaffold(
-      appBar: AppBar(title: Text('My Profile'), centerTitle: true),
+      appBar: AppBar(title: Text("My Profile".tr()), centerTitle: true),
       body: userProvider.isLoading
           ? Center(child: CircularProgressIndicator(color: colorScheme.primary))
           : userProvider.user == null
@@ -97,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   Divider(height: 40),
                   ListTile(
-                    title: Text("Edit Profile"),
+                    title: Text("Edit Profile".tr()),
                     trailing: IconButton(
                       onPressed: () {
                         editName(context, userProvider);
@@ -173,11 +175,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     icon: Icon(Icons.logout),
                     label: Text(
-                      "Log Out",
+                      "Log Out".tr(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => BookingScreen(),
+                          ),
+                        );
+                      },
+                      child: Text("Booking"),
                     ),
                   ),
                 ],
