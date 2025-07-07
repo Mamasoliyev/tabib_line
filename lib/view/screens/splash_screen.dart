@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        color: Colors.white,
+        // color: Colors.white,
         width: double.infinity,
         height: double.infinity,
         child: Center(
@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     style: const TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      // color: Colors.black,
                       fontFamily: 'Nunito',
                     ),
                   ),

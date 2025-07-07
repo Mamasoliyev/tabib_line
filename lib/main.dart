@@ -63,9 +63,43 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         fontFamily: 'Nunito',
+        scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.black),
+          bodyLarge: TextStyle(color: Colors.black),
+          headlineMedium: TextStyle(color: Colors.black),
+        ),
       ),
-      darkTheme: ThemeData(brightness: Brightness.dark, fontFamily: 'Nunito'),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Nunito',
+        scaffoldBackgroundColor: const Color(0xFF020E22),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF020E22),
+          foregroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.white),
+          bodyLarge: TextStyle(color: Colors.white),
+          headlineMedium: TextStyle(color: Colors.white),
+        ),
+        colorScheme: const ColorScheme.dark().copyWith(primary: Colors.blue),
+      ),
       themeMode: themeProvider.themeMode,
       onGenerateRoute: (settings) {
         switch (settings.name) {

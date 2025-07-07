@@ -35,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE6EBF5),
+      // backgroundColor: const Color(0xFFE6EBF5),
       body: SafeArea(
         child: Stack(
           children: [
@@ -96,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       vertical: 16,
                     ),
                     decoration: const BoxDecoration(
-                      color: Colors.white,
+                      // color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(24),
                         topRight: Radius.circular(24),
@@ -111,7 +111,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            // color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -120,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           text2[_currentIndex],
                           style: const TextStyle(
                             fontSize: 18,
-                            color: Colors.black54,
+                            // color: Colors.black54,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -174,7 +174,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    // color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.blue, width: 1),
                   ),
