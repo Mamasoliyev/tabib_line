@@ -24,7 +24,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
         builder: (context, value, child) => buildButtomNavigationBar(value),
       ),
       body: IndexedStack(
-        // index: navigationProvider.index,
         children: [navigationProvider.screen[navigationProvider.index]],
       ),
     );

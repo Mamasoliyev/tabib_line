@@ -61,7 +61,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -83,14 +82,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 30),
-                // First Name
                 Form(
                   key: _formKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // First name
                       TextFormField(
                         controller: firstNameController,
                         maxLength: 30,
@@ -137,10 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return errors.join('\n');
                         },
                       ),
-
                       const SizedBox(height: 16),
-
-                      // Last name
                       TextFormField(
                         controller: lastNameController,
                         maxLength: 30,
@@ -187,10 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return errors.join('\n');
                         },
                       ),
-
                       const SizedBox(height: 16),
-
-                      // Email
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -219,7 +210,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 valid;
                           });
                         },
-
                         validator: (value) {
                           final trimmed = value?.trim() ?? '';
                           if (trimmed.isEmpty) {
@@ -233,10 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return null;
                         },
                       ),
-
                       const SizedBox(height: 16),
-
-                      // Password
                       TextFormField(
                         controller: passwordController,
                         obscureText: !isVisible,
@@ -271,8 +258,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       ),
                       const SizedBox(height: 6),
-
-                      // password kuchi ko‘rsatkich
                       Text(
                         passwordStrength,
                         style: TextStyle(
@@ -283,7 +268,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     : Colors.red),
                         ),
                       ),
-
                       const SizedBox(height: 10),
                     ],
                   ),
@@ -313,16 +297,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-
                 const SizedBox(height: 20),
                 Row(
                   children: [
                     MainButton(
                       text: "Create Account",
                       textColor: Colors.white,
-
                       color: const Color(0xFF254EDB),
-
                       onPressed: () async {
                         print("bosildi");
                         try {
@@ -330,25 +311,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           final password = passwordController.text.trim();
                           final firstName = firstNameController.text.trim();
                           final lastName = lastNameController.text.trim();
-
-                          // foydalanuvchini yaratamiz
                           final userCredential = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                                 email: email,
                                 password: password,
                               );
-
                           final userId = userCredential.user?.uid;
-
                           if (userId != null) {
-                            // bazada shunday user bor-yo‘qligini tekshiramiz
                             final userDoc = await FirebaseFirestore.instance
                                 .collection("users")
                                 .doc(userId)
                                 .get();
-
                             if (!userDoc.exists) {
-                              // agar mavjud bo‘lmasa, yangi yozuv qo‘shamiz
                               await FirebaseFirestore.instance
                                   .collection("users")
                                   .doc(userId)
@@ -366,8 +340,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               );
                             }
                           }
-
-                          // create bo‘lgach login pagega yuboramiz
                           Navigator.pushNamed(context, 'log_in');
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'email-already-in-use') {
@@ -413,11 +385,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       rasm: Assets.images.facebookLogo.svg(),
                       text: "Sign in with Facebook",
                       textColor: Color(0xFF4F73DF),
-
                       color: const Color(0xFFF9FAFB),
-
                       onPressed: () {},
-                      // rasm: Assets.i,
                     ),
                   ],
                 ),
@@ -429,17 +398,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       rasm: Assets.images.googleLogo.svg(),
                       text: "Sign in with Google",
                       textColor: Colors.white,
-
                       color: const Color(0xFF254EDB),
-
-                      onPressed: () {
-                        // Masalan: oxirgi sahifaga sakrash
-                      },
+                      onPressed: () {},
                     ),
                   ],
                 ),
                 const SizedBox(width: 16),
-
                 SizedBox(height: 20),
                 Center(
                   child: Text.rich(

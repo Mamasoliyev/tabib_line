@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tabib_line/service/cache_helper.dart';
-import 'package:tabib_line/view/screens/booking_screen.dart';
 import 'package:tabib_line/view_model/theme_provider.dart';
 import 'package:tabib_line/view_model/user_provider.dart';
 
@@ -180,20 +178,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => BookingScreen(),
-                          ),
-                        );
-                      },
-                      child: Text("Booking"),
                     ),
                   ),
                 ],

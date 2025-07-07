@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tabib_line/utils/sizeBox.dart';
-import 'package:tabib_line/view/screens/home_screen.dart';
+import 'package:tabib_line/view/screens/booking_screen.dart';
 
 class DoctorDetailScreen extends StatefulWidget {
   final Map<String, dynamic> doctor;
@@ -36,7 +36,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
         .collection('doctors')
         .doc(widget.doctorId);
     final snapshot = await docRef.get();
-    final currentData = snapshot.data() as Map<String, dynamic>?;
+    final currentData = snapshot.data();
 
     if (currentData == null) return;
 
@@ -238,9 +238,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (ctx) => HomeScreen(),
-                    ), //! change screen
+                    MaterialPageRoute(builder: (ctx) => BookingScreen()),
                   );
                 },
                 child: Text(
